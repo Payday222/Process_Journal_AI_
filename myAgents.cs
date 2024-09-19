@@ -12,22 +12,38 @@ public class myAgent : Agent
     public float fallforce = 1f;
     private bool isGrounded;
     public const float jumpcooldown = 6;
+    [Header("RESULTS")]
     public float lastJumpTime;
+    public int targets_reached = 0;
 
-  public override void Initialize()
+    float currentPos;
+private void  Start()
+{
+    float x  = transform.localPosition.x - Target.position.x;
+    float y  = transform.localPosition.y - Target.position.y;
+    currentPos = Mathf.Sqrt(x + y);
+}
+
+void Update()
+{
+    
+}
+    public override void Initialize()
     {
         Target.transform.localPosition = new Vector3(Random.Range(-2.15f, 2.0f), 0.41f, 6);
         transform.localPosition = new Vector3(Random.Range(-1.76f, 1.70f), 1, -0.8f);
         rb = GetComponent<Rigidbody>();
+        lastJumpTime -= jumpcooldown;
     }
- public override void CollectObservations(VectorSensor sensor)
+
+    public override void CollectObservations(VectorSensor sensor)
     {
         sensor.AddObservation(transform.localPosition); // Agent's position
         sensor.AddObservation(Target.transform.localPosition); // Target's position
         sensor.AddObservation(isGrounded); // Ground state
     }
 
-  public override void OnActionReceived(ActionBuffers actions)
+    public override void OnActionReceived(ActionBuffers actions)
     {
         int jumpAction = actions.DiscreteActions[0]; 
         int directionAction = actions.DiscreteActions[1]; // Direction action (0 = no movement, 1 = forward, 2 = backward, 3 = left, 4 = right)
@@ -44,6 +60,13 @@ public class myAgent : Agent
         //         currentPod = transform.localPosition;
 
         // }
+        if(currentPos > distanceToTarget) {
+            SetReward(0.1f);
+            float x = transform.localPosition.x - Target.position.x;
+            float y  = transform.localPosition.y - Target.position.y;
+            currentPos = Mathf.Sqrt(x + y);
+        }
+        
 
         if (distanceToTarget < 2.0f)
         {
@@ -58,16 +81,45 @@ public class myAgent : Agent
              Initialize();
         }
     }
-  private void Jump(int directionAction)
-    { rb.AddForce((Vector3.up * jumpForce), ForceMode.Impulse);
+
+        private void Jump(int directionAction)
+        {
+        Vector3 moveDirection = Vector3.zero; 
+
+        
+        switch (directionAction)
+        {
+            case 1:
+            Debug.Log($"f");
+                moveDirection = Vector3.forward; 
+                break;
+            case 2:
+            Debug.Log($"b");
+                moveDirection = Vector3.back; 
+                break;
+            case 3:
+            Debug.Log($"l");
+                moveDirection = Vector3.left; 
+                break;
+            case 4:
+            Debug.Log($"r");
+                moveDirection = Vector3.right; 
+                break;
+            default:
+            Debug.Log($"0");
+                moveDirection = Vector3.zero; 
+                break;
+        }
+
+        rb.AddForce((Vector3.up * jumpForce) + (moveDirection * moveSpeed), ForceMode.Impulse);
         isGrounded = false; 
         lastJumpTime = Time.time;
     }
-        private void FixedUpdate()
+
+    private void FixedUpdate()
     {
         CheckGrounded();
     }
-
 
     private void CheckGrounded()
     {
