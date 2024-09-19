@@ -1,0 +1,31 @@
+behaviors:
+  TargetFinderAgent:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 64            # Number of experiences used for each training step.
+      buffer_size: 2048         # How many experiences are collected before updating the model.
+      learning_rate: 0.0003     # How fast the model learns.
+      beta: 0.003               # Learning exponent
+      beta_schedule: linear
+      epsilon: 0.2              # PPO clipping parameter.
+      lambd: 0.95               # GAE parameter for reducing variance.
+      num_epoch: 3              # Number of passes through the experience buffer during training.
+      learning_rate_schedule: linear  # How the learning rate changes over time.
+
+    network_settings:
+      normalize: true           # Normalize the inputs.
+      hidden_units: 128         # Number of units in each fully connected layer.
+      num_layers: 2             # Number of hidden layers.
+      vis_encode_type: simple   # Type of visual encoder (if using visual observations).
+    
+    reward_signals:
+      extrinsic:
+        gamma: 0.99            # Discount factor for future rewards.
+        strength: 1.0          # Strength of the extrinsic reward signal.
+
+    max_steps: 500000           # Total training steps.
+    time_horizon: 64            # Number of steps to look ahead for rewards.
+    summary_freq: 10000         # How often to write training statistics.
+    keep_checkpoints: 5         # How many model checkpoints to keep.
+    checkpoint_interval: 50000  # Frequency (in steps) at which to save the model.
+    threaded: true              # Use multi-threading to speed up training.
