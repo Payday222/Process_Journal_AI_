@@ -5,7 +5,7 @@ behaviors:
       batch_size: 64            # Number of experiences used for each training step.
       buffer_size: 2048         # How many experiences are collected before updating the model.
       learning_rate: 0.0003     # How fast the model learns.
-      beta: 0.003               # Learning exponent
+      beta: 0.00                # exploration exponent
       beta_schedule: linear
       epsilon: 0.2              # PPO clipping parameter.
       lambd: 0.95               # GAE parameter for reducing variance.
