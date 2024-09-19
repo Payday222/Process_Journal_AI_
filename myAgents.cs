@@ -16,7 +16,7 @@ public class myAgent : Agent
     public Transform Target;
     private Rigidbody rb;
     public float jumpForce = 5f;
-    public float moveSpeed = 3f; 
+    public float moveSpeed = 3f;
     public float fallforce = 1f;
     private bool isGrounded;
     public float jumpcooldown = 6;
@@ -31,7 +31,9 @@ private void  Start()
 
 void Update()
 {
+    if(total_runs != 0) {
     accuracy = targets_reached / total_runs;
+    }
 }
     public override void Initialize()
     {
@@ -43,15 +45,15 @@ void Update()
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition); /
+        sensor.AddObservation(transform.localPosition);
         sensor.AddObservation(Target.transform.localPosition); 
-        sensor.AddObservation(isGrounded);
-
+        sensor.AddObservation(isGrounded); 
     }
+
     public override void OnActionReceived(ActionBuffers actions)
     {
         int jumpAction = actions.DiscreteActions[0]; 
-        int directionAction = actions.DiscreteActions[1];
+        int directionAction = actions.DiscreteActions[1]; 
 
         if (jumpAction == 1 && isGrounded && Time.time - lastJumpTime > jumpcooldown)
         {
