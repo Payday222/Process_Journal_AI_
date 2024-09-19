@@ -5,16 +5,21 @@ using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Actuators;
 public class myAgent : Agent
 {
+        [Header("RESULTS")]
+    public float lastJumpTime;
+    public int targets_reached = 0;
+    public int targets_lost = 0;
+    public int total_runs = 0;
+    public int accuracy;
+
+        [Header("VARIABLES")]
     public Transform Target;
     private Rigidbody rb;
     public float jumpForce = 5f;
-    public float moveSpeed = 3f; // Horizontal movement speed during jump
+    public float moveSpeed = 3f; 
     public float fallforce = 1f;
     private bool isGrounded;
-    public const float jumpcooldown = 6;
-    [Header("RESULTS")]
-    public float lastJumpTime;
-    public int targets_reached = 0;
+    public float jumpcooldown = 6;
 
     float currentPos;
 private void  Start()
@@ -26,7 +31,7 @@ private void  Start()
 
 void Update()
 {
-    
+    accuracy = targets_reached / total_runs;
 }
     public override void Initialize()
     {
@@ -38,15 +43,15 @@ void Update()
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        sensor.AddObservation(transform.localPosition); // Agent's position
-        sensor.AddObservation(Target.transform.localPosition); // Target's position
-        sensor.AddObservation(isGrounded); // Ground state
-    }
+        sensor.AddObservation(transform.localPosition); /
+        sensor.AddObservation(Target.transform.localPosition); 
+        sensor.AddObservation(isGrounded);
 
+    }
     public override void OnActionReceived(ActionBuffers actions)
     {
         int jumpAction = actions.DiscreteActions[0]; 
-        int directionAction = actions.DiscreteActions[1]; // Direction action (0 = no movement, 1 = forward, 2 = backward, 3 = left, 4 = right)
+        int directionAction = actions.DiscreteActions[1];
 
         if (jumpAction == 1 && isGrounded && Time.time - lastJumpTime > jumpcooldown)
         {
@@ -73,12 +78,17 @@ void Update()
             SetReward(1.0f);
             EndEpisode();
             Initialize();
+            targets_reached++;
+            total_runs++;
         }
         if (distanceToTarget > 50.0f)
         {
             SetReward(-1.0f);
              EndEpisode();
              Initialize();
+             targets_lost++;
+             total_runs++;
+
         }
     }
 
@@ -112,7 +122,7 @@ void Update()
         }
 
         rb.AddForce((Vector3.up * jumpForce) + (moveDirection * moveSpeed), ForceMode.Impulse);
-        isGrounded = false; 
+        isGrounded = false;
         lastJumpTime = Time.time;
     }
 
