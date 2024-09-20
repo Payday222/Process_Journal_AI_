@@ -1,0 +1,30 @@
+behaviors:
+  MyAgent:
+    trainer_type: ppo
+    hyperparameters:
+      batch_size: 64
+      buffer_size: 12000     #original valu: 12000 earlier changed to 2048, to monitor
+      learning_rate: 0.0003
+      beta: 0.0             #original value: 0.01
+      beta_schedule: linear
+      epsilon: 0.2
+      lambd: 0.99
+      num_epoch: 3
+      learning_rate_schedule: linear
+      
+    network_settings:
+      normalize: true
+      hidden_units: 128
+      num_layers: 2
+      vis_encode_type: simple
+      
+    reward_signals:
+      extrinsic:
+        gamma: 0.99
+        strength: 1.0
+    checkpoint_interval: 50000
+    keep_checkpoints: 5
+    max_steps: 500000
+    time_horizon: 1000
+    summary_freq: 12000
+    threaded: true
