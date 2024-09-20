@@ -18,11 +18,11 @@ public class myAgent : Agent
         [Header("VARIABLES")]
     public Transform Target;
     private Rigidbody rb;
-    public float jumpForce = 5f;
-    public float moveSpeed = 3f; // Horizontal movement speed during jump
+    public float jumpForce = 4f;
+    public float moveSpeed = 2f;
     public float fallforce = 1f;
     private bool isGrounded;
-    public float jumpcooldown = 6;
+    public float jumpcooldown = 1;
     float currentPos;
 private void  Start()
 {
@@ -76,12 +76,6 @@ void Update()
         }
         //!Reward logic
         float distanceToTarget = Vector3.Distance(transform.localPosition, Target.localPosition);
-        // if(distanceToTarget < currentPod.magnitude)
-        // {
-        //         SetReward(0.5f);
-        //         currentPod = transform.localPosition;
-
-        // }
         if(currentPos > distanceToTarget) {
             SetReward(0.1f);
             float x  = Target.localPosition.x - transform.localPosition.x;
