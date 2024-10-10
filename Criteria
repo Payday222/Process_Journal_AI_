@@ -1,0 +1,27 @@
+CRITERIA:
+-The environment will be built with the unity ML-Agents package 
+-The project will be made with unity 2022.3.42f1 as a game engine.
+-The project will be made using python 3.7.9 as the preferred code language.
+-The project will be made with the following dependencies: Pytorch, CUDA and… (other dependencies)
+-The projects’ process Journal will be made in the form of a Git Repo. 
+
+-The video will be around be 10 minutes long
+-The video must depict the process of learning by the AI agent.
+-The video must include the learning process in three different environments:
+	a) A gap for the agent to learn jumping.
+	b)Floating platforms, in order for the agent to learn precise jumping.
+	c) a room, divided by a small wall placed in the middle, which will train two AI Agents:
+		-one will be learning to catch the other.
+		-the other will be learning to avoid its enemy.
+-The video will be made and edited in Shotcut
+-the video will be recorded with a Linux-friendly OBS client, made for Ubuntu/Debian distributions.
+-The video will be uploaded to youtube, on a designated youtube account for ease of access
+-The AI model will have to be created by 12.02.2025
+-The unity environment will have to be created by 12.02.2025
+-The coding environment, dependencies, and work setup should be ready by 1.10.2024
+-The video should depict the learning process for each  learning environment: one section for the beginning, one section for the mid-way, and last section for the most optimal result reached by the AI agent.
+-The video should begin with an explanation of how a Reinforcement Learning agent works.
+-The presentation will include: 
+a)The final product (the video) 
+b)The 3 environments, prepared to be run, in order for the recipients to witness the learning process themselves.
+c)The Git repo with all the code used to create the AI models, in order to show to people, who are interested in the technical aspect of the project.
