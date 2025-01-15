@@ -76,12 +76,17 @@ void Update()
         }
         //!Reward logic
         float distanceToTarget = Vector3.Distance(transform.localPosition, Target.localPosition);
+        if(isGrounded) {
+                if(currentPos > distanceToTarget) {
+                    SetReward(0.1f);
+                    float x  = Target.localPosition.x - transform.localPosition.x;
+                    float y  = Target.localPosition.y - transform.position.y;
+                    currentPos = Mathf.Sqrt((x*x) + (y*y));
+                }
+        } else {
         if(currentPos > distanceToTarget) {
-            SetReward(0.1f);
-            float x  = Target.localPosition.x - transform.localPosition.x;
-            float y  = Target.localPosition.y - transform.position.y;
-            currentPos = Mathf.Sqrt((x*x) + (y*y));
-        }
+                    currentPos = Vector3.Distance(transform.localPosition, target.localPosition);
+                }
         
 
         if (distanceToTarget < 2.0f)
